@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    *{
+      background-color:black;
+    }
+    label{
+      color:cyan;
+      font-weight:bold;
+    }
+    h1{
+    color:cyan;
+    font-family: Lucida, Courier, monospace;
+    text-align:center;
+  }
+input{
+     background-color:white;
+     width:200px;
+     font-weight:bold;
+    background-color:cyan;
+    padding:5px 10px 5px 10px;
+    border-radius:10px;
+    outline:none;
+    border:1px solid white;
+   }
+form{
+    text-align:center;
+  }
+button{
+  font-weight:bold;
+  background-color:cyan;
+  padding:5px 10px 5px 10px;
+  border-radius:10px;
+  outline:none;
+  border:1px solid white;
+}
+h4{
+  color:#34ff00;
+ }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+<h1>PhOtOsItE</h1>
+<form method="post" autocomplete ="off" id="sForm">
+<label>Enter Name</label>
+<br>
+<input type="text" name="uname"/><br><br>
+<label>Enter e-mail</label>
+<br>
+<input type="text" name="email"/><br><br>
+<label>Enter password</label>
+<br>
+<input type="password" name="pass"/><br><br>
+<label>confirm password</label>
+<br>
+<input type="password" name="rpass"/><br><br>
+<button name="btn" id="sBtn">Sign up</button>
+</form>
+<h4>Notice:<br>&nbsp&nbsp**Anoymous chat not save messages chat anoymous**</h4>
+<script>
+  var btn=document.getElementById("sBtn");
+  var data={};
+  btn.onclick=(e)=>{
+ e.preventDefault();
+  const form = document.getElementById("sForm");
+  const formdata=new FormData(form);
+    for(var [key,value] of formdata){
+      data[key]=value;
+    }
+  fetch('http://localhost:3000/', {
+	method: 'POST',
+	body: JSON.stringify(data),
+	headers: {
+		'Content-type': 'application/json; charset=UTF-8'
+	},
+}).then((res)=>{
+		  return res.text();
+}).then((res)=>{
+  if(res=="ok"){
+    alert("Email send.Kindly verify");
+  }
+})
+.catch(function (error) {
+	alert('Something went wrong.', error);
+});
+
+var s_email=data.email;
+sessionStorage["s_mail"]=s_email;
+
+  }
+</script>
+</body>
+</html>

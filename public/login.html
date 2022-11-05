@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    *{
+      background-color:black;
+    }
+    label{
+      color:cyan;
+      font-weight:bold;
+    }
+    h1{
+    color:cyan;
+    font-family: Lucida, Courier, monospace;
+    text-align:center;
+  }
+input{
+     background-color:white;
+     width:200px;
+     font-weight:bold;
+    background-color:cyan;
+    padding:5px 10px 5px 10px;
+    border-radius:10px;
+    outline:none;
+    border:1px solid white;
+   }
+form{
+    text-align:center;
+  }
+button{
+  font-weight:bold;
+  background-color:cyan;
+  padding:5px 10px 5px 10px;
+  border-radius:10px;
+  outline:none;
+  border:1px solid white;
+}
+h4{
+  color:#34ff00;
+ }
+ a{
+   text-decoration:none;
+   color:cyan;
+ }
+ p{
+   text-align:center;
+ }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+<h1>PhOtOsItE</h1>
+<form method="post" autocomplete ="off" id="sform">
+<label>Enter e-mail</label>
+<br>
+<input type="text" name="email"/><br><br>
+<label>Enter password</label>
+<br>
+<input type="password" name="pass"/><br><br>
+<button name="sbtn" id="sbtn">Log in</button>
+</form><br>
+<p><a href="http://localhost:3000/forgetpassword">Forget password</a></p>
+<h4>World class dog breeds picture</h4>
+<script>
+
+   var btn=document.getElementById("sbtn");
+  var data={};
+  const form = document.getElementById("sform");
+  btn.onclick=(e)=>{
+    e.preventDefault();
+  const formdata=new FormData(form);
+    for(var [key,value] of formdata){
+      data[key]=value;
+    }
+  fetch('http://localhost:3000/login', {
+	method: 'POST',
+	body: JSON.stringify(data),
+	headers: {
+		'Content-type': 'application/json; charset=UTF-8'
+	},
+}).then((res)=>{
+		  return res.json();
+}).then((res)=>{
+  if(res.status=="ok" && res.verified==1){
+    sessionStorage["token_id"]=res.token;
+    sessionStorage["id"]=res.email;
+    window.location.replace("http://localhost:3000/main")
+  }
+  else{
+    alert("Email id not found");
+  }
+})
+.catch(function (error) {
+	alert('Something went wrong.', error);
+})
+}
+	
+</script>
+</body>
+</html>

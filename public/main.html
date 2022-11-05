@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+				font-family:sans-Serif;
+				}
+h1{
+				text-align:center;
+				font-weight:bold;
+				text-shadow:5px 5px 5px grey;
+				}
+button{
+    position:absolute;
+    background-color:blue;
+    color:white;
+    padding:4px 7px;
+    outline:none;
+    border:none;
+    top:10px;
+    right:10px;
+}
+img{
+  width:100px;
+  height:100px;
+  display:inline-block;
+  border:1px solid black;
+  box-shadow:5px 5px 2px grey;
+  margin:5px;
+}
+@media only screen   
+and (min-width: 750px){
+  img{
+  width:200px;
+  height:200px;
+  display:inline-block;
+  border:1px solid black;
+  box-shadow:5px 5px 2px grey;
+  margin:5px;
+}
+}  
+  </style>
+</head>
+<body onscroll="scroll()">
+  <h1>PhOtOsItE</h1>
+  <button id="outBtn">Log out</button>
+  <div id="container"></div>
+  <script>
+   var url=window.location.href;
+   var logout=document.getElementById("outBtn");
+   var params=new URL(url);
+   var id,token_id;
+   
+   function hello(id,token_id){
+   fetch(`http://localhost:3000/verify/${id}/${token_id}`)
+   .then((res)=>{
+     return res.text();
+   })
+   .then((res)=>{
+     if(res=="verified"){
+       //free api for dog breeds
+       var lurl="https://dog.ceo/api/breeds/image/random";
+var cont=document.getElementById("container");
+var image=document.getElementById("image");
+function reload(){
+for(var i=0;i<30;i++){
+var b="a"+i;
+b=new Request(lurl);
+fetch(b)
+.then(res => res.json())
+.then(rev => {					
+				b=document.createElement("img");
+				b.src=rev.message;
+				console.log(rev);
+				cont.append(b);
+				});
+				}
+				}
+reload();
+function scroll(){
+				var x= document.documentElement.scrollHeight;
+var y= document.documentElement.clientHeight;
+var z= document.documentElement.scrollTop;
+var total=y+z;
+if(total > x-40){
+				reload();
+				}
+				}
+     }
+     else{
+       window.location.replace("http://localhost:3000/signin")
+     }
+   })
+   }
+   
+     id=params.searchParams.get("id");
+    token_id=params.searchParams.get("token_id");
+    if(id!==null && token_id!==null){
+      sessionStorage["id"]=id;
+      sessionStorage["token_id"]=token_id;
+      hello(id,token_id);
+    }
+    else{
+      if(sessionStorage["id"]==undefined && sessionStorage["token_id"]==undefined){
+        window.location.replace("http://localhost:3000/signin")
+      }
+      else{
+     id=sessionStorage["id"];
+   token_id=sessionStorage["token_id"];
+   hello(id,token_id);
+      }
+    }
+   
+   logout.onclick=(e)=>{
+     e.preventDefault();
+     sessionStorage.clear();
+     window.location.replace("http://localhost:3000/signin");
+   }
+  </script>
+</body>
+</html>
