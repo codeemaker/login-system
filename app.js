@@ -9,10 +9,10 @@ const connect_db=database.conn
 const app = express()
 //create mysql connection
 const conn=mysql.createConnection({
-  host:"localhost", 
-  user:"root", 
-  password:"hello",
-  database:"usrData"
+  host:"host name", 
+  user:"your username", 
+  password:"your password",
+  database:"database name"
 })
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
